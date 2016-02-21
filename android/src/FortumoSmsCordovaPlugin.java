@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import jamesjara.com.cordova.fortumo.PaymentConstants;
 
@@ -164,7 +165,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         try {
         	JSONArray JSON = new JSONArray();
         	
-        	for(Entry<String, JSONObject> entry : products.entrySet()) {
+        	for(Map.Entry<String, JSONObject> entry : products.entrySet()) {
         		
         	    String key = entry.getKey();
         	    JSONObject value = entry.getValue();
@@ -177,6 +178,8 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         	    
             	JSON.put(parentObj);
         	}
+        	
+        	
 
             
         	callbackContext.success(JSON);
