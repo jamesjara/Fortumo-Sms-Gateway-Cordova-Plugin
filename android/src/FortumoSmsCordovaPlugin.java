@@ -86,6 +86,11 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             setProduct(productId, productData , callbackContext);
             return true;
         }
+        else if ("getProducts".equals(action))
+        {   
+            getProducts(callbackContext);
+            return true;
+        }
         else if ("purchaseProduct".equals(action))
         {
             String productId = args.getString(0);
@@ -153,6 +158,14 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 
+    private void getProducts(final CallbackContext callbackContext) {
+        if (!checkInitialized(callbackContext)) return;
+        
+        JSONObject obj = new JSONObject(products);
+        JSONArray JSONArray = new JSONArray(obj.toString());
+        callbackContext.success(JSONArray);
+    }
+    
     private void mapSku(String sku, String storeName, String storeSku) {
         //SkuManager.getInstance().mapSku(sku, storeName, storeSku);
     }

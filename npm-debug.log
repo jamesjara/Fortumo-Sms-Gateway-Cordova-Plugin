@@ -1,121 +1,25 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'publish' ]
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'version', 'patch' ]
 2 info using npm@1.4.28
 3 info using node@v0.10.40
 4 verbose node symlink /usr/bin/node
-5 verbose publish [ '.' ]
-6 verbose cache add [ '.', null ]
-7 verbose cache add name=undefined spec="." args=[".",null]
-8 verbose parsed url { protocol: null,
-8 verbose parsed url   slashes: null,
-8 verbose parsed url   auth: null,
-8 verbose parsed url   host: null,
-8 verbose parsed url   port: null,
-8 verbose parsed url   hostname: null,
-8 verbose parsed url   hash: null,
-8 verbose parsed url   search: null,
-8 verbose parsed url   query: null,
-8 verbose parsed url   pathname: '.',
-8 verbose parsed url   path: '.',
-8 verbose parsed url   href: '.' }
-9 silly lockFile 3a52ce78- .
-10 verbose lock . /root/.npm/3a52ce78-.lock
-11 verbose tar pack [ '/root/.npm/fortumo-sms-cordova-plugin/1.0.42/package.tgz',
-11 verbose tar pack   '.' ]
-12 verbose tarball /root/.npm/fortumo-sms-cordova-plugin/1.0.42/package.tgz
-13 verbose folder .
-14 info prepublish fortumo-sms-cordova-plugin@1.0.42
-15 silly lockFile 1f1177db-tar tar://.
-16 verbose lock tar://. /root/.npm/1f1177db-tar.lock
-17 silly lockFile 493b29ab-ordova-plugin-1-0-42-package-tgz tar:///root/.npm/fortumo-sms-cordova-plugin/1.0.42/package.tgz
-18 verbose lock tar:///root/.npm/fortumo-sms-cordova-plugin/1.0.42/package.tgz /root/.npm/493b29ab-ordova-plugin-1-0-42-package-tgz.lock
-19 silly lockFile 1f1177db-tar tar://.
-20 silly lockFile 1f1177db-tar tar://.
-21 silly lockFile 493b29ab-ordova-plugin-1-0-42-package-tgz tar:///root/.npm/fortumo-sms-cordova-plugin/1.0.42/package.tgz
-22 silly lockFile 493b29ab-ordova-plugin-1-0-42-package-tgz tar:///root/.npm/fortumo-sms-cordova-plugin/1.0.42/package.tgz
-23 silly lockFile 58324ebb-ms-cordova-plugin-1-0-42-package /root/.npm/fortumo-sms-cordova-plugin/1.0.42/package
-24 verbose lock /root/.npm/fortumo-sms-cordova-plugin/1.0.42/package /root/.npm/58324ebb-ms-cordova-plugin-1-0-42-package.lock
-25 silly lockFile 58324ebb-ms-cordova-plugin-1-0-42-package /root/.npm/fortumo-sms-cordova-plugin/1.0.42/package
-26 silly lockFile 58324ebb-ms-cordova-plugin-1-0-42-package /root/.npm/fortumo-sms-cordova-plugin/1.0.42/package
-27 silly lockFile 3a52ce78- .
-28 silly lockFile 3a52ce78- .
-29 silly publish { name: 'fortumo-sms-cordova-plugin',
-29 silly publish   version: '1.0.42',
-29 silly publish   description: 'fortumo-sms-cordova plugin gateway for fortumo payments',
-29 silly publish   cordova: { platforms: [ 'ios', 'android', 'wp8' ] },
-29 silly publish   repository:
-29 silly publish    { type: 'git',
-29 silly publish      url: 'git+https://github.com/jamesjara/Fortumo-Sms-Gateway-Cordova-Plugin' },
-29 silly publish   keywords:
-29 silly publish    [ 'fortumo-sms-cordova-plugin',
-29 silly publish      'fortumo',
-29 silly publish      'cordova',
-29 silly publish      'phonegap',
-29 silly publish      'phoengap',
-29 silly publish      'build',
-29 silly publish      'ecosystem:cordova',
-29 silly publish      'cordova-ios',
-29 silly publish      'cordova-android',
-29 silly publish      'cordova-windows' ],
-29 silly publish   engines: [ { name: 'cordova', version: '>=3.0.0' } ],
-29 silly publish   author:
-29 silly publish    { name: 'jamesjara',
-29 silly publish      email: 'jamesjara@gmail.com',
-29 silly publish      url: 'https://www.jamesjara.com/' },
-29 silly publish   license: 'MIT',
-29 silly publish   homepage: 'https://github.com/jamesjara/Fortumo-Sms-Gateway-Cordova-Plugi',
-29 silly publish   readme: 'fortumo-sms-cordova-plugin\n=======================\n\nFortumo Sms Gateway plugin for Cordova-based frameworks\n\nCordova Integration\n-------------------\n\n1) Add Android platform to your project using CLI.\n```\n$ cordova platform add android\n```\n\n2) Add Fortumo Sms Gateway plugin, referencing repo.\n```\n$ cordova plugin add https://github.com/jamesjara/Fortumo-Sms-Gateway-Cordova-Plugin.git\n```\n\n3) Build the app.\n```\n$ cordova build\n```\n\n4) Run it.\n```\n$ cordova run android\n```\n\nPlugin Usage\n------------\n\n1) Include script to your application.\n```\n<script type="text/javascript" src="cordova.js"></script>\n```\n\n2) Simply call ```fortumo``` object methods, passing callback functions.\n\n\nSet store keys.\n```\nfortumo.options.storeKeys = [[\'your public key\']];\n```\n\nc) Initialize plugin.\n```\nfortumo.init(function(){}, function(error){}, [ "SKU1", "SKU2", "SKU3" ]);\n```\n\n\n',
-29 silly publish   readmeFilename: 'README.md',
-29 silly publish   gitHead: 'b0ae8e0221bb2aaf4a078f0947f94131b743e13a',
-29 silly publish   bugs: { url: 'https://github.com/jamesjara/Fortumo-Sms-Gateway-Cordova-Plugin/issues' },
-29 silly publish   _id: 'fortumo-sms-cordova-plugin@1.0.42',
-29 silly publish   scripts: {},
-29 silly publish   _shasum: '947423cf32f4bc3337779b2d1b704336d71b2ed5',
-29 silly publish   _from: '.' }
-30 verbose request where is /fortumo-sms-cordova-plugin
-31 verbose request registry https://registry.npmjs.org/
-32 verbose request id 7393df9232109af4
-33 verbose url raw /fortumo-sms-cordova-plugin
-34 verbose url resolving [ 'https://registry.npmjs.org/',
-34 verbose url resolving   './fortumo-sms-cordova-plugin' ]
-35 verbose url resolved https://registry.npmjs.org/fortumo-sms-cordova-plugin
-36 verbose request where is https://registry.npmjs.org/fortumo-sms-cordova-plugin
-37 info trying registry request attempt 1 at 15:55:47
-38 http PUT https://registry.npmjs.org/fortumo-sms-cordova-plugin
-39 http 500 https://registry.npmjs.org/fortumo-sms-cordova-plugin
-40 info retry will retry, error on last attempt: Error: "fortumo-sms-cordova-plugin status = 403" : fortumo-sms-cordova-plugin
-41 info trying registry request attempt 2 at 15:56:01
-42 http PUT https://registry.npmjs.org/fortumo-sms-cordova-plugin
-43 http 403 https://registry.npmjs.org/fortumo-sms-cordova-plugin
-44 verbose headers { 'content-type': 'application/json',
-44 verbose headers   'cache-control': 'max-age=300',
-44 verbose headers   'content-length': '96',
-44 verbose headers   'accept-ranges': 'bytes',
-44 verbose headers   date: 'Sun, 21 Feb 2016 21:00:01 GMT',
-44 verbose headers   via: '1.1 varnish',
-44 verbose headers   connection: 'keep-alive',
-44 verbose headers   'x-served-by': 'cache-atl6235-ATL',
-44 verbose headers   'x-cache': 'MISS',
-44 verbose headers   'x-cache-hits': '0',
-44 verbose headers   'x-timer': 'S1456088400.433499,VS0,VE1007' }
-45 error publish Failed PUT 403
-46 error Error: "You cannot publish over the previously published version 1.0.42." : fortumo-sms-cordova-plugin
-46 error     at RegClient.<anonymous> (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:308:14)
-46 error     at Request._callback (/usr/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:246:65)
-46 error     at Request.self.callback (/usr/lib/node_modules/npm/node_modules/request/request.js:236:22)
-46 error     at Request.emit (events.js:98:17)
-46 error     at Request.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1142:14)
-46 error     at Request.emit (events.js:117:20)
-46 error     at IncomingMessage.<anonymous> (/usr/lib/node_modules/npm/node_modules/request/request.js:1096:12)
-46 error     at IncomingMessage.emit (events.js:117:20)
-46 error     at _stream_readable.js:944:16
-46 error     at process._tickCallback (node.js:448:13)
-47 error If you need help, you may report this *entire* log,
-47 error including the npm and node versions, at:
-47 error     <http://github.com/npm/npm/issues>
-48 error System Linux 3.8.0-42-generic
-49 error command "/usr/bin/node" "/usr/bin/npm" "publish"
-50 error cwd /home/james/tmp/tmp/Fortumo-Sms-Gateway-Cordova-Plugin
-51 error node -v v0.10.40
-52 error npm -v 1.4.28
-53 verbose exit [ 1, true ]
+5 error Error: Git working directory not clean.
+5 error M android/src/FortumoSmsCordovaPlugin.java
+5 error M example/index.html
+5 error M www/fortumo.js
+5 error     at /usr/lib/node_modules/npm/lib/version.js:91:33
+5 error     at ChildProcess.exithandler (child_process.js:656:7)
+5 error     at ChildProcess.emit (events.js:98:17)
+5 error     at maybeClose (child_process.js:766:16)
+5 error     at Socket.<anonymous> (child_process.js:979:11)
+5 error     at Socket.emit (events.js:95:17)
+5 error     at Pipe.close (net.js:466:12)
+6 error If you need help, you may report this *entire* log,
+6 error including the npm and node versions, at:
+6 error     <http://github.com/npm/npm/issues>
+7 error System Linux 3.8.0-42-generic
+8 error command "/usr/bin/node" "/usr/bin/npm" "version" "patch"
+9 error cwd /home/james/tmp/tmp/Fortumo-Sms-Gateway-Cordova-Plugin
+10 error node -v v0.10.40
+11 error npm -v 1.4.28
+12 verbose exit [ 1, true ]

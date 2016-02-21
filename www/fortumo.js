@@ -51,6 +51,12 @@ Fortumo.prototype.purchaseProduct = function(success, error, productId, payload)
         exec(success, error, PLUGIN, "purchaseProduct", [productId, payload]);
 }
 
+Fortumo.prototype.getProducts = function(success, error)
+{
+    exec(success, error, PLUGIN, "getProducts");
+}
+
+
 
 Fortumo.prototype.consume = function(success, error, sku)
 {
