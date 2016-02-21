@@ -182,7 +182,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 
                 	JSON.put(parentObj);
                 } catch (JSONException e) {
-                    Log.e(TAG, "Invalid JSON string: " + childs , e);
+                    Log.e(TAG, "Invalid JSON string: " , e);
                 }
         	    
         	}
@@ -355,26 +355,28 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
                     JSONObject config = products.get(productId);
                     String testtttt = config.getString("productName");
                     
+                    // get data form map                
+                    builder.setProductName(testtttt);
+                    builder.setConsumable(true);
+                    builder.setDisplayString(PaymentConstants.DISPLAY_STRING_GOLD);
+                    builder.setCreditsMultiplier(1.1d);
+                    //builder.setIcon(R.drawable.ic_launcher);
+                    
+                    
+                    
+                    PaymentRequest pr = builder.build();  
+                    
+                    // execute
+                    Intent localIntent = pr.toIntent(cordova.getActivity());
+                    cordova.getActivity().startActivityForResult(localIntent, REQUEST_CODE);
+                    
+                    
                 } catch (JSONException e) {
-                    Log.e(TAG, "Invalid JSON string: " + config, e);
+                    Log.e(TAG, "Invalid JSON string: " , e);
                 }
                 
                 
-                // get data form map                
-                builder.setProductName(testtttt);
-                builder.setConsumable(true);
-                builder.setDisplayString(PaymentConstants.DISPLAY_STRING_GOLD);
-                builder.setCreditsMultiplier(1.1d);
-                //builder.setIcon(R.drawable.ic_launcher);
-                
-                
-                
-                PaymentRequest pr = builder.build();  
-                
-                // execute
-                Intent localIntent = pr.toIntent(cordova.getActivity());
-                cordova.getActivity().startActivityForResult(localIntent, REQUEST_CODE);
-                
+
                 //makePayment(pr);
                 //_helper.launchPurchaseFlow(cordova.getActivity(), sku, RC_REQUEST, new BillingCallback(callbackContext), developerPayload);
             }
