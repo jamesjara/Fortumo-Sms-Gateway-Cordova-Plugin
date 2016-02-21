@@ -1,6 +1,6 @@
 {
   "name": "fortumo-sms-cordova-plugin",
-  "version": "1.0.64",
+  "version": "1.0.65",
   "description": "fortumo-sms-cordova plugin gateway for fortumo payments",
   "cordova": {
     "platforms": [
