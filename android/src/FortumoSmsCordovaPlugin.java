@@ -160,8 +160,16 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 
     private void getProducts(final CallbackContext callbackContext) {
         if (!checkInitialized(callbackContext)) return;
-        
-        JSONObject obj = new JSONObject(products);
+
+        Object[] testArray = new Object[1];
+        testArray["key1"] = "value1";
+        testArray["key2"] = "value2";
+
+
+        Map<String, Object> producDataAsMap = new HashMap<String, Object>();
+        producDataAsMap.put("producto1", testArray );
+                
+        JSONObject obj = new JSONObject(producDataAsMap);
         try {
         	JSONArray JSONArray = new JSONArray(obj.toString());
         	callbackContext.success(JSONArray);
