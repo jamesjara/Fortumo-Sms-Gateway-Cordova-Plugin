@@ -35,7 +35,7 @@ import mp.PaymentResponse;
 public class FortumoSmsCordovaPlugin extends CordovaPlugin
 {
 	
-	private static final int REQUEST_CODE = 50687944598; // if you want to call me :)
+	private static final int REQUEST_CODE = 87944598; // if you want to call me :) +506
     public static final String TAG = "forumo-sms-gateway";
     
     //private PaymentActivity  mClass;
