@@ -175,11 +175,9 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
               		JSONObject childs = new JSONObject();
               		childs.put( "asd" , "tsssss");
               		
-
                 	JSONObject parentObj = new JSONObject();
                 	parentObj.put( key , childs);
                 	
-
                 	JSON.put(parentObj);
                 } catch (JSONException e) {
                     Log.e(TAG, "Invalid JSON string: " , e);
@@ -187,8 +185,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         	    
         	}
         	
-        	 
-        	
+            
 
             
         	callbackContext.success(JSON);
@@ -364,7 +361,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
                     builder.setDisplayString(display);
             		builder.setPriceAmount(amount);
             		builder.setPriceCurrency(currency);
-                    builder.setType(MpUtils.TYPE_CONSUMABLE);
+                   // builder.setType(MpUtils.TYPE_CONSUMABLE);
                     //builder.setCreditsMultiplier(1.1d);
                     //builder.setIcon(R.drawable.ic_launcher);
                     
