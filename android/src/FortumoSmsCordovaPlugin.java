@@ -161,18 +161,31 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     private void getProducts(final CallbackContext callbackContext) {
         if (!checkInitialized(callbackContext)) return;
 
-        Object[] testArray = new Object[1];
-        testArray["key1"] = "value1";
-        testArray["key2"] = "value2";
-
-
-        Map<String, Object> producDataAsMap = new HashMap<String, Object>();
-        producDataAsMap.put("producto1", testArray );
-                
-        JSONObject obj = new JSONObject(producDataAsMap);
+           
+      //  JSONObject obj = new JSONObject(products);
         try {
-        	JSONArray JSONArray = new JSONArray(obj.toString());
-        	callbackContext.success(JSONArray);
+        	//JSONArray JSONArray = new JSONArray(obj.toString());
+
+
+        	JSONArray JSON = new JSONArray();
+        	
+        	 
+        	
+        	for(Entry<String, JSONObject> entry : products.entrySet()) {
+        	    String key = entry.getKey();
+        	    JSONObject value = entry.getValue();
+
+            	JSONObject childs = new JSONObject();
+            	childs.put( "asd" , "tsssss");
+            	
+            	JSONObject parentObj = new JSONObject();
+            	parentObj.put( key , childs);
+        	    
+            	JSON.put(parentObj);
+        	}
+
+            
+        	callbackContext.success(JSON);
         } catch (JSONException e) {
             callbackContext.error( e.getMessage());
             return;
@@ -296,7 +309,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     }
 
 
-    private static final HashMap<String, Object> products = new HashMap<String, Object>();
+    private static final HashMap<String, JSONObject> products = new HashMap<String, JSONObject>();
     
     private void setProduct(final String productId, final JSONObject productData, final CallbackContext callbackContext) {
         if (!checkInitialized(callbackContext)) return;
@@ -306,9 +319,10 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             @Override
             public void run() {
             	try {
-                    Map<String, Object> producDataAsMap = new HashMap<String, Object>();
-                    producDataAsMap = toMap(productData);
-                    products.put(productId, producDataAsMap);
+            		
+                    //Map<String, Object> producDataAsMap = new HashMap<String, Object>();
+                    //producDataAsMap = toMap(productData);
+                    products.put(productId, productData);
                     callbackContext.success();
                 } catch (JSONException e) {
                     callbackContext.error(e.getMessage());
@@ -330,9 +344,13 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             	PaymentRequest.PaymentRequestBuilder builder = new PaymentRequest.PaymentRequestBuilder();
                 builder.setService("aaaa", "ffffffff");
                 
+                JSONObject test = products.get(productId);
+                String testtttt = config.getString("productName");
+                
+                
                 
                 // get data form map                
-                builder.setProductName(PaymentConstants.PRODUCT_GOLD);
+                builder.setProductName(testtttt);
                 builder.setConsumable(true);
                 builder.setDisplayString(PaymentConstants.DISPLAY_STRING_GOLD);
                 builder.setCreditsMultiplier(1.1d);
