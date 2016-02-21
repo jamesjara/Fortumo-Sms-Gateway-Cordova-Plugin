@@ -163,12 +163,12 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         
         JSONObject obj = new JSONObject(products);
         try {
-        JSONArray JSONArray = new JSONArray(obj.toString());
+        	JSONArray JSONArray = new JSONArray(obj.toString());
+        	callbackContext.success(JSONArray);
         } catch (JSONException e) {
             callbackContext.error( e.getMessage());
             return;
         }
-        callbackContext.success(JSONArray);
     }
     
     private void mapSku(String sku, String storeName, String storeSku) {
