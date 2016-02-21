@@ -162,7 +162,12 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         if (!checkInitialized(callbackContext)) return;
         
         JSONObject obj = new JSONObject(products);
+        try {
         JSONArray JSONArray = new JSONArray(obj.toString());
+        } catch (JSONException e) {
+            callbackContext.error( e.getMessage());
+            return;
+        }
         callbackContext.success(JSONArray);
     }
     
