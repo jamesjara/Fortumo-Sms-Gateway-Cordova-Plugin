@@ -38,6 +38,10 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     
     //private PaymentActivity  mClass;
     public static final String READ = "xxx";//Manifest.permission.PAYMENT_BROADCAST_PERMISSION;
+
+    public String ServiceId = "";
+    public String AppSecret = "";
+    
     /*
     @Override
     protected void onStart() {
@@ -60,25 +64,30 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     {
         if ("init".equals(action))
         {
-            JSONObject j = args.getJSONObject(0);
-            boolean checkInventory = j.getBoolean("checkInventory");
-            int checkInventoryTimeout = j.getInt("checkInventoryTimeout");
-            int discoveryTimeout = j.getInt("discoveryTimeout");
-            int verifyMode = j.getInt("verifyMode");
-            int storeSearchStrategy = j.getInt("storeSearchStrategy");
-			int samsungCertificationRequestCode = j.getInt("samsungCertificationRequestCode");
-			
-			//mClass = new PaymentActivity(this);
-			 
+            JSONObject config = args.getJSONObject(0);
+            String serviceId = config.getString("serviceId");
+            String appSecret = config.getString("appSecret");
+
+            ServiceId = serviceId;
+            AppSecret = appSecret;            
+            
 			//_helper = Fortumo.enablePaymentBroadcast(this, Manifest.permission.PAYMENT_BROADCAST_PERMISSION);
 			init(callbackContext);
             return true;
         }
+        else if ("setProduct".equals(action))
+        {
+            String productId = args.getString(0);
+            JSONObject productData = args.getJSONObject(1) ;            
+            
+            setProduct(productId, productData , callbackContext);
+            return true;
+        }
         else if ("purchaseProduct".equals(action))
         {
-            String sku = args.getString(0);
+            String productId = args.getString(0);
             String payload = args.length() > 1 ? args.getString(1) : "";
-            purchaseProduct(sku, payload, callbackContext);
+            purchaseProduct(productId, payload, callbackContext);
             return true;
         }
         else if ("purchaseSubscription".equals(action))
@@ -210,7 +219,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     }
 
     //private void init(final JSONArray  options, final List<String> skuList, final CallbackContext callbackContext) {
-    private void init(final CallbackContext callbackContext) {
+    private void init( final CallbackContext callbackContext) {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
             	
@@ -257,7 +266,29 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         return true;
     }
 
-    private void purchaseProduct(final String sku, final String developerPayload, final CallbackContext callbackContext) {
+
+    private static final HashMap<String, Object> products = new HashMap<String, Object>();
+    
+    private void setProduct(final String productId, final JSONObject productData, final CallbackContext callbackContext) {
+        if (!checkInitialized(callbackContext)) return;
+
+        cordova.setActivityResultCallback(this);
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+            	try {
+                    Map<String, Object> producDataAsMap = new HashMap<String, Object>();
+                    producDataAsMap = toMap(productData);
+                    products.put(productId, producDataAsMap);
+                    callbackContext.success();
+                } catch (JSONException e) {
+                    callbackContext.error(e.getMessage());
+                }
+            }
+        });
+    }
+
+    private void purchaseProduct(final String productId, final String developerPayload, final CallbackContext callbackContext) {
         if (!checkInitialized(callbackContext)) return;
 
         //Log.d(TAG, "SKU: " + SkuManager.getInstance().getStoreSku(OpenIabHelper.NAME_GOOGLE, sku));
@@ -268,12 +299,19 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             public void run() {
             	//mClass.PaymentRequest.PaymentRequestBuilder builder = new mClass.PaymentRequest.PaymentRequestBuilder();
             	PaymentRequest.PaymentRequestBuilder builder = new PaymentRequest.PaymentRequestBuilder();
-                builder.setService(PaymentConstants.GOLD_SERVICE_ID, PaymentConstants.GOLD_SERVICE_IN_APP_SECRET);
+                builder.setService(ServiceId, AppSecret);
+                
+                
+                // get data form map
+                
                 builder.setProductName(PaymentConstants.PRODUCT_GOLD);
                 builder.setConsumable(true);
                 builder.setDisplayString(PaymentConstants.DISPLAY_STRING_GOLD);
                 builder.setCreditsMultiplier(1.1d);
                 //builder.setIcon(R.drawable.ic_launcher);
+                
+                
+                
                 PaymentRequest pr = builder.build();  
                 
                 // execute
@@ -516,4 +554,25 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 			//super.onActivityResult(requestCode, resultCode, data);
 		}
 	}
+    
+
+    private static Map<String, Object> toMap(JSONObject object) throws JSONException {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        Iterator<String> keysItr = object.keys();
+        while(keysItr.hasNext()) {
+            String key = keysItr.next();
+            Object value = object.get(key);
+
+            if(value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+
+            else if(value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            map.put(key, value);
+        }
+        return map;
+    }
 }
