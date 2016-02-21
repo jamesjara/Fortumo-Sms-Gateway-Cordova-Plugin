@@ -182,12 +182,12 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 
                 	JSON.put(parentObj);
                 } catch (JSONException e) {
-                    Log.e(TAG, "Invalid JSON string: " + json, e);
+                    Log.e(TAG, "Invalid JSON string: " + childs , e);
                 }
         	    
         	}
         	
-  
+        	 
         	
 
             
@@ -337,7 +337,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         });
     }
 
-    private void purchaseProduct(final String productId, final String developerPayload, final CallbackContext callbackContext) throws JSONException {
+    private void purchaseProduct(final String productId, final String developerPayload, final CallbackContext callbackContext) {
         if (!checkInitialized(callbackContext)) return;
 
         //Log.d(TAG, "SKU: " + SkuManager.getInstance().getStoreSku(OpenIabHelper.NAME_GOOGLE, sku));
@@ -350,9 +350,14 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             	PaymentRequest.PaymentRequestBuilder builder = new PaymentRequest.PaymentRequestBuilder();
                 builder.setService("aaaa", "ffffffff");
                 
-                JSONObject config = products.get(productId);
-                String testtttt = config.getString("productName");
-                
+                try {            	
+
+                    JSONObject config = products.get(productId);
+                    String testtttt = config.getString("productName");
+                    
+                } catch (JSONException e) {
+                    Log.e(TAG, "Invalid JSON string: " + config, e);
+                }
                 
                 
                 // get data form map                
