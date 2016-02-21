@@ -347,29 +347,30 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             @Override
             public void run() {
             	//mClass.PaymentRequest.PaymentRequestBuilder builder = new mClass.PaymentRequest.PaymentRequestBuilder();
-            	PaymentRequest.PaymentRequestBuilder builder = new PaymentRequest.PaymentRequestBuilder();
-                builder.setService("aaaa", "ffffffff");
+
                 
                 try {            	
 
                     JSONObject config = products.get(productId);
-                    String testtttt = config.getString("productName");
-                    
-                    // get data form map                
-                    builder.setProductName(testtttt);
-                    builder.setConsumable(true);
-                    builder.setDisplayString(PaymentConstants.DISPLAY_STRING_GOLD);
-                    builder.setCreditsMultiplier(1.1d);
+                    String productName = config.getString("name");
+                    String appSecret = config.getString("appSecret"); 
+                    String display = config.getString("display"); 
+                    String amount = config.getString("amount"); 
+                    String currency = config.getString("currency"); 
+                      
+                	PaymentRequest.PaymentRequestBuilder builder = new PaymentRequest.PaymentRequestBuilder();
+                    builder.setService(productId, appSecret);              
+                    builder.setProductName(productName);
+                    builder.setDisplayString(display);
+            		builder.setPriceAmount(amount);
+            		builder.setPriceCurrency(currency);
+                    builder.setType(MpUtils.TYPE_CONSUMABLE);
+                    //builder.setCreditsMultiplier(1.1d);
                     //builder.setIcon(R.drawable.ic_launcher);
                     
-                    
-                    
                     PaymentRequest pr = builder.build();  
-                    
-                    // execute
                     Intent localIntent = pr.toIntent(cordova.getActivity());
                     cordova.getActivity().startActivityForResult(localIntent, REQUEST_CODE);
-                    
                     
                 } catch (JSONException e) {
                     Log.e(TAG, "Invalid JSON string: " , e);
