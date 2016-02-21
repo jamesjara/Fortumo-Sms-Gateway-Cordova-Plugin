@@ -21,6 +21,9 @@ import android.Manifest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import jamesjara.com.cordova.fortumo.PaymentConstants;
 
@@ -64,12 +67,13 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     {
         if ("init".equals(action))
         {
+        	/*
             JSONObject config = args.getJSONObject(0);
             String serviceId = config.getString("serviceId");
             String appSecret = config.getString("appSecret");
-
             ServiceId = serviceId;
             AppSecret = appSecret;            
+            */
             
 			//_helper = Fortumo.enablePaymentBroadcast(this, Manifest.permission.PAYMENT_BROADCAST_PERMISSION);
 			init(callbackContext);

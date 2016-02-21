@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <title>Fortumo Sms Cordova Plugin - Cordova</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Fortumo Sms Cordova Plugin - Cordova</h1>
+            <div id="deviceready">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+            <button type="button" class="button" id="btn_init" disabled>Init</button> <br>
+            <button type="button" class="button" id="btn_purchase" disabled>Purchase</button> <br>
+            <button type="button" class="button" id="btn_consume" disabled>Consume</button> <br>
+            <button type="button" class="button" id="btn_test_purchase">Test Purchase</button> <br>
+            <button type="button" class="button" id="btn_test_consume">Test Consume</button> <br>
+        </div>
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="fortumo"></script>
+        <script type="text/javascript">
+        /*
+         * Licensed to the Apache Software Foundation (ASF) under one
+         * or more contributor license agreements.  See the NOTICE file
+         * distributed with this work for additional information
+         * regarding copyright ownership.  The ASF licenses this file
+         * to you under the Apache License, Version 2.0 (the
+         * "License"); you may not use this file except in compliance
+         * with the License.  You may obtain a copy of the License at
+         *
+         * http://www.apache.org/licenses/LICENSE-2.0
+         *
+         * Unless required by applicable law or agreed to in writing,
+         * software distributed under the License is distributed on an
+         * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+         * KIND, either express or implied.  See the License for the
+         * specific language governing permissions and limitations
+         * under the License.
+         */
+        var app = {
+            PRODUCTID : 'TEST',
+            mapSkuSuccess: function()
+            {
+                console.log("MapSku.SUCCESS");
+            },
+            mapSkuFail: function(error)
+            {
+                console.log("MapSku.FAIL: " + error.message);
+            },
+            getPurchasesSuccess: function(purchaseList)
+            {
+                console.log("GetPurchases.SUCCESS: " + JSON.stringify(purchaseList));
+            },
+            getPurchasesFail: function(error)
+            {
+                console.log("GetPurchases.FAIL: " + error.message);
+            },    
+            getSkuDetailsSuccess: function(skuDetails)
+            {
+                console.log("GetSkuDetails.SUCCESS: " + JSON.stringify(skuDetails));
+            },
+            getSkuListDetailsSuccess: function(skuDetailsList)
+            {
+                console.log("GetSkuListDetails.SUCCESS: " + JSON.stringify(skuDetailsList));
+            },
+            getSkuDetailsFail: function(error)
+            {
+                console.log("GetSkuDetails.FAIL: " + error.message);
+            },
+            initSuccess: function()
+            {
+                console.log("Init.SUCCESS");
+
+                var purchaseButton = document.getElementById('btn_purchase');
+                purchaseButton.disabled = false;
+
+                var consumeButton = document.getElementById('btn_consume');
+                consumeButton.disabled = false;       
+            },
+            initFail: function(error)
+            {
+                console.log("Init.FAIL: " + error.message);
+            },
+            purchaseSuccess: function(purchase)
+            {
+                console.log("Purchase.SUCCESS: " + JSON.stringify(purchase));
+            },
+            purchaseFail: function(error)
+            {
+                console.log("Purchase.FAIL: " + error.message);
+            },
+            consumeSuccess: function(purchase)
+            {
+                console.log("Consume.SUCCESS: " + JSON.stringify(purchase));
+            },
+            consumeFail: function(error)
+            {
+                console.log("Consume.FAIL: " + error.message);
+            },
+
+            // Application Constructor
+            initialize: function() 
+            {
+                this.bindEvents();
+            },
+            // Bind Event Listeners
+            //
+            // Bind any events that are required on startup. Common events are:
+            // 'load', 'deviceready', 'offline', and 'online'.
+            bindEvents: function() 
+            {
+                document.addEventListener('deviceready', this.onDeviceReady, false);
+            },
+            // deviceready Event Handler
+            //
+            // The scope of 'this' is the event. In order to call the 'receivedEvent'
+            // function, we must explicitly call 'app.receivedEvent(...);'
+            onDeviceReady: function() 
+            {
+                app.receivedEvent('deviceready');
+
+        		var initButton = document.getElementById('btn_init');
+                var purchaseButton = document.getElementById('btn_purchase');
+                var consumeButton = document.getElementById('btn_consume');
+                var testPurchaseButton = document.getElementById('btn_test_purchase');
+                var testConsumeButton = document.getElementById('btn_test_consume');
+
+                initButton.onclick = function() { fortumo.init(app.initSuccess, app.initFail); }
+                purchaseButton.onclick = function() { fortumo.purchaseProduct(app.purchaseSuccess, app.purchaseFail, app.PRODUCTID); }
+                //consumeButton.onclick = function() { fortumo.consume(app.consumeSuccess, app.consumeFail, app.SKU_CONS); }
+                //testPurchaseButton.onclick = function() { fortumo.purchaseProduct(app.purchaseSuccess, app.purchaseFail, "android.test.purchased"); }
+                //testConsumeButton.onclick = function() { fortumo.consume(app.consumeSuccess, app.consumeFail, "android.test.purchased"); }
+
+                // Map all SKUs
+                fortumo.setProduct(app.mapSkuSuccess, app.mapSkuFail, "test", {
+                    "asd" : "asd2",
+                    "asd" : "asd2"
+                });
+ 
+                // Enable init
+                initButton.disabled = false;
+            },
+            // Update DOM on a Received Event
+            receivedEvent: function(id) 
+            {
+                var parentElement = document.getElementById(id);
+                var listeningElement = parentElement.querySelector('.listening');
+                var receivedElement = parentElement.querySelector('.received');
+
+                listeningElement.setAttribute('style', 'display:none;');
+                receivedElement.setAttribute('style', 'display:block;');
+
+                console.log('Received Event: ' + id);
+            }
+        };
+        
+        </script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+
+    </body>
+</html>
