@@ -170,15 +170,24 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         	    String key = entry.getKey();
         	    JSONObject value = entry.getValue();
 
-            	JSONObject childs = new JSONObject();
-            	childs.put( "asd" , "tsssss");
-            	
-            	JSONObject parentObj = new JSONObject();
-            	parentObj.put( key , childs);
+
+              	try {            	
+              		JSONObject childs = new JSONObject();
+              		childs.put( "asd" , "tsssss");
+              		
+
+                	JSONObject parentObj = new JSONObject();
+                	parentObj.put( key , childs);
+                	
+
+                	JSON.put(parentObj);
+                } catch (JSONException e) {
+                    Log.e(TAG, "Invalid JSON string: " + json, e);
+                }
         	    
-            	JSON.put(parentObj);
         	}
         	
+  
         	
 
             
