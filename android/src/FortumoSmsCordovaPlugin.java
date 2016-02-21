@@ -324,15 +324,15 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-            	try {
+            	//try {
             		
                     //Map<String, Object> producDataAsMap = new HashMap<String, Object>();
                     //producDataAsMap = toMap(productData);
                     products.put(productId, productData);
                     callbackContext.success();
-                } catch (JSONException e) {
-                    callbackContext.error(e.getMessage());
-                }
+                //} catch (JSONException e) {
+                //    callbackContext.error(e.getMessage());
+               // }
             }
         });
     }
