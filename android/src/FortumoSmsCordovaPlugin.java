@@ -162,7 +162,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     private void getProducts(final CallbackContext callbackContext) {
         if (!checkInitialized(callbackContext)) return;
 
-        try {
+      //  try {
         	JSONArray JSON = new JSONArray();
         	
         	for(Map.Entry<String, JSONObject> entry : products.entrySet()) {
@@ -183,10 +183,10 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 
             
         	callbackContext.success(JSON);
-        } catch (JSONException e) {
+       /* } catch (JSONException e) {
             callbackContext.error( e.getMessage());
             return;
-        }
+        }*/
     }
     
     private void mapSku(String sku, String storeName, String storeSku) {
@@ -328,7 +328,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         });
     }
 
-    private void purchaseProduct(final String productId, final String developerPayload, final CallbackContext callbackContext) {
+    private void purchaseProduct(final String productId, final String developerPayload, final CallbackContext callbackContext) throws JSONException {
         if (!checkInitialized(callbackContext)) return;
 
         //Log.d(TAG, "SKU: " + SkuManager.getInstance().getStoreSku(OpenIabHelper.NAME_GOOGLE, sku));
