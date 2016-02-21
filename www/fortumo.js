@@ -28,7 +28,6 @@ function Fortumo()
                               ] 
                 ]
 	*/
-	}    
 	
 	this.error =
 	{
