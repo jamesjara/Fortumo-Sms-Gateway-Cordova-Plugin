@@ -341,7 +341,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             	PaymentRequest.PaymentRequestBuilder builder = new PaymentRequest.PaymentRequestBuilder();
                 builder.setService("aaaa", "ffffffff");
                 
-                JSONObject test = products.get(productId);
+                JSONObject config = products.get(productId);
                 String testtttt = config.getString("productName");
                 
                 
