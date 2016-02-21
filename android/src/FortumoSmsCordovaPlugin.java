@@ -302,11 +302,10 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             public void run() {
             	//mClass.PaymentRequest.PaymentRequestBuilder builder = new mClass.PaymentRequest.PaymentRequestBuilder();
             	PaymentRequest.PaymentRequestBuilder builder = new PaymentRequest.PaymentRequestBuilder();
-                builder.setService(ServiceId, AppSecret);
+                builder.setService("aaaa", "ffffffff");
                 
                 
-                // get data form map
-                
+                // get data form map                
                 builder.setProductName(PaymentConstants.PRODUCT_GOLD);
                 builder.setConsumable(true);
                 builder.setDisplayString(PaymentConstants.DISPLAY_STRING_GOLD);
