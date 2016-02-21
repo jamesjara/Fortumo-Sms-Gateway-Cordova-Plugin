@@ -35,9 +35,8 @@ import mp.PaymentResponse;
 public class FortumoSmsCordovaPlugin extends CordovaPlugin
 {
 	
-
-	private static final int REQUEST_CODE = 1234; // Can be anything
-    public static final String TAG = "OpenIAB-xxxx";
+	private static final int REQUEST_CODE = 50687944598; // if you want to call me :)
+    public static final String TAG = "forumo-sms-gateway";
     
     //private PaymentActivity  mClass;
     public static final String READ = "xxx";//Manifest.permission.PAYMENT_BROADCAST_PERMISSION;
@@ -579,4 +578,22 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         }
         return map;
     }
+    
+
+    private static List<Object> toList(JSONArray array) throws JSONException {
+        List<Object> list = new ArrayList<Object>();
+        for(int i = 0; i < array.length(); i++) {
+            Object value = array.get(i);
+            if(value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+
+            else if(value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            list.add(value);
+        }
+        return list;
+    }
+    
 }
