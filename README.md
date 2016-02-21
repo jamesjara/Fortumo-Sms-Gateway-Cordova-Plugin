@@ -1,4 +1,4 @@
-OpenIAB-Cordova-Plugin
+fortumo-sms-cordova-plugin
 =======================
 
 Fortumo Sms Gateway plugin for Cordova-based frameworks
