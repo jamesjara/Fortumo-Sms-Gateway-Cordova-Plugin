@@ -45,6 +45,8 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException
     {
+    	  PluginResult.Status status = PluginResult.Status.OK;
+    	  
         if ("init".equals(action))
         {
 			//_helper = Fortumo.enablePaymentBroadcast(this, Manifest.permission.PAYMENT_BROADCAST_PERMISSION);
@@ -70,10 +72,12 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             String productId = args.getString(0);
             String payload = args.length() > 1 ? args.getString(1) : "";
             purchaseProduct(productId, payload, callbackContext);
-
+            
+/*
             PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, productId);
             pluginResult.setKeepCallback(true);
             callbackContext.sendPluginResult(pluginResult);
+            */
             return true;
         }
         else if ("consume".equals(action))
@@ -323,6 +327,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         }
     };
     
+    
     @Override
     public void  onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CODE) {
@@ -332,7 +337,6 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 			// OK
 			if (resultCode == Activity.RESULT_OK){//RESULT_OK) {
 				PaymentResponse response = new PaymentResponse(data);
-				
 				switch (response.getBillingStatus()) {
 					case MpUtils.MESSAGE_STATUS_BILLED:
 					
@@ -343,6 +347,10 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 					break;
 				case MpUtils.MESSAGE_STATUS_FAILED:
 					// ...
+
+		              PluginResult result = new PluginResult(PluginResult.Status.C, "test");
+		              result.setKeepCallback(true);
+		              connectionCallbackContext.sendPluginResult(result);
 					break;
 				case MpUtils.MESSAGE_STATUS_PENDING:
 					// ...
