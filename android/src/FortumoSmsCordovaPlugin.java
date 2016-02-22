@@ -266,21 +266,25 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     }
     
     private void createBroadcasts() {
+    	/*
         Log.d(TAG, "createBroadcasts");
         IntentFilter filter = new IntentFilter(PaymentConstants.SUCCESSFUL_PAYMENT);
         cordova.getActivity().registerReceiver(_billingReceiver, filter);
         Log.i(TAG, "updateReceiver registered");
+        */
     }
 
     private void destroyBroadcasts() {
+    	/*
         Log.d(TAG, "destroyBroadcasts");
         try {
             cordova.getActivity().unregisterReceiver(_billingReceiver);
         } catch (Exception ex) {
             Log.d(TAG, "destroyBroadcasts exception:\n" + ex.getMessage());
         }
+        */
     }
-
+/*
     private BroadcastReceiver _billingReceiver = new BroadcastReceiver() {
         private static final String TAG = "jamesjarabillings";
 
@@ -326,6 +330,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             }          
         }
     };
+    */
     
     
     @Override
@@ -338,16 +343,32 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 			if (resultCode == Activity.RESULT_OK){//RESULT_OK) {
 				PaymentResponse response = new PaymentResponse(data);
 				switch (response.getBillingStatus()) {
-					case MpUtils.MESSAGE_STATUS_BILLED:
-					
-			              PluginResult result = new PluginResult(PluginResult.Status.OK, "test");
-			              result.setKeepCallback(true);
-			              connectionCallbackContext.sendPluginResult(result);
-						
+					case MpUtils.MESSAGE_STATUS_BILLED:							
+			            Bundle extras = data.getExtras(); 
+		              	try {       
+		              		JSONObject result = new JSONObject();
+		              		result.put( "credit_amount" , extras.getString("credit_amount"));	
+		              		result.put( "credit_name" , extras.getString("credit_name"));	
+		              		result.put( "message_id" , extras.getString("message_id"));	
+		              		result.put( "payment_code" , extras.getString("payment_code"));	
+		              		result.put( "price_amount" , extras.getString("price_amount"));	
+		              		result.put( "price_currency" , extras.getString("price_currency"));	
+		              		result.put( "product_name" , extras.getString("product_name"));	
+		              		result.put( "service_id" , extras.getString("service_id"));	
+		              		result.put( "user_id" , extras.getString("user_id"));	
+		              		childs.put( "billing_status" , extras.getString("billing_status"));	
+		              		result.put( "credit_amount" , extras.getString("credit_amount"));	
+				            PluginResult result = new PluginResult(PluginResult.Status.OK, result);
+				            result.setKeepCallback(true);
+				            connectionCallbackContext.sendPluginResult(result);
+		                } catch (JSONException e) {
+		                    Log.e(TAG, "Invalid JSON string: " , e);
+		                }
 					break;
 				case MpUtils.MESSAGE_STATUS_FAILED:
-					// ...
- 
+			            PluginResult result = new PluginResult(PluginResult.Status.ERROR);
+			            result.setKeepCallback(true);
+			            connectionCallbackContext.sendPluginResult(result);
 					break;
 				case MpUtils.MESSAGE_STATUS_PENDING:
 					// ...
