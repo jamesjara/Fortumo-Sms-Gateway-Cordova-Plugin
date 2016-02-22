@@ -36,9 +36,6 @@
             </div>
             <button type="button" class="button" id="btn_init" disabled>Init</button> <br>
             <button type="button" class="button" id="btn_purchase" disabled>Purchase</button> <br>
-            <button type="button" class="button" id="btn_consume" disabled>Consume</button> <br>
-            <button type="button" class="button" id="btn_test_purchase">Test Purchase</button> <br>
-            <button type="button" class="button" id="btn_test_consume">Test Consume</button> <br>
         </div>
 
         <script type="text/javascript" src="cordova.js"></script>
@@ -63,15 +60,6 @@
          * under the License.
          */
         var app = {
-            PRODUCTID : 'TEST',
-            mapSkuSuccess: function()
-            {
-                console.log("MapSku.SUCCESS");
-            },
-            mapSkuFail: function(error)
-            {
-                console.log("MapSku.FAIL: " + error.message);
-            },
             getPurchasesSuccess: function(purchaseList)
             {
                 console.log("GetPurchases.SUCCESS: " + JSON.stringify(purchaseList));
@@ -80,18 +68,6 @@
             {
                 console.log("GetPurchases.FAIL: " + error.message);
             },    
-            getSkuDetailsSuccess: function(skuDetails)
-            {
-                console.log("GetSkuDetails.SUCCESS: " + JSON.stringify(skuDetails));
-            },
-            getSkuListDetailsSuccess: function(skuDetailsList)
-            {
-                console.log("GetSkuListDetails.SUCCESS: " + JSON.stringify(skuDetailsList));
-            },
-            getSkuDetailsFail: function(error)
-            {
-                console.log("GetSkuDetails.FAIL: " + error.message);
-            },
             initSuccess: function()
             {
                 console.log("Init.SUCCESS");
@@ -114,15 +90,6 @@
             {
                 console.log("Purchase.FAIL: " + error.message);
             },
-            consumeSuccess: function(purchase)
-            {
-                console.log("Consume.SUCCESS: " + JSON.stringify(purchase));
-            },
-            consumeFail: function(error)
-            {
-                console.log("Consume.FAIL: " + error.message);
-            },
-
             // Application Constructor
             initialize: function() 
             {
@@ -146,15 +113,9 @@
 
         		var initButton = document.getElementById('btn_init');
                 var purchaseButton = document.getElementById('btn_purchase');
-                var consumeButton = document.getElementById('btn_consume');
-                var testPurchaseButton = document.getElementById('btn_test_purchase');
-                var testConsumeButton = document.getElementById('btn_test_consume');
 
                 initButton.onclick = function() { fortumo.init(app.initSuccess, app.initFail); }
                 purchaseButton.onclick = function() { fortumo.purchaseProduct(app.purchaseSuccess, app.purchaseFail, "a3e92d08f7fa470725d88425db904441"); }
-                //consumeButton.onclick = function() { fortumo.consume(app.consumeSuccess, app.consumeFail, app.SKU_CONS); }
-                //testPurchaseButton.onclick = function() { fortumo.purchaseProduct(app.purchaseSuccess, app.purchaseFail, "android.test.purchased"); }
-                //testConsumeButton.onclick = function() { fortumo.consume(app.consumeSuccess, app.consumeFail, "android.test.purchased"); }
 
                 // Map all prodctos
                 fortumo.setProduct(app.mapSkuSuccess, app.mapSkuFail, "a3e92d08f7fa470725d88425db904441", {
@@ -163,8 +124,7 @@
                     "display" : "asi me veo",
                     "amount" : "4.99",
                     "currency" : "USD",
-                });
-                
+                });        
                 
                 // Enable init
                 initButton.disabled = false;
