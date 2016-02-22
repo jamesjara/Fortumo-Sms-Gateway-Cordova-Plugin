@@ -24,12 +24,14 @@ import mp.MpUtils;
 import mp.PaymentActivity;
 import mp.PaymentRequest;
 import mp.PaymentResponse;
+
 public class FortumoSmsCordovaPlugin extends CordovaPlugin {
+	
     private static final int REQUEST_CODE = 87944598; // if you want to call me :) +506
     public static final String TAG = "forumo-sms-gateway";
-    private static final HashMap < String, JSONObject > products = new HashMap < String, JSONObject > ();
-    // we need this callback when Task will finish
+    private static final HashMap <String, JSONObject> products = new HashMap <String, JSONObject>();
     private CallbackContext connectionCallbackContext;
+    
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         PluginResult.Status status = PluginResult.Status.OK;

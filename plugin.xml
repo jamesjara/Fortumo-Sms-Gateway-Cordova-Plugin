@@ -1,83 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        id="jamesjara.com.cordova.fortumo"
-        version="0.0.1">
-
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" id="jamesjara.com.cordova.fortumo" version="0.0.1">
     <name>Fortumo Sms Gateway</name>
     <description>Cordova Fortumo Sms Gateway Plugin</description>
     <author>James Jara</author>
     <license>Apache 2.0</license>
     <keywords>cordova, billing, android, Fortumo , Sms Gateway</keywords>
-   
     <platform name="android">
-
         <js-module src="www/fortumo.js" name="fortumo">
-            <clobbers target="fortumo" />
-        </js-module>
-
+            <clobbers target="fortumo" /> </js-module>
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="FortumoSmsCordovaPlugin">
-                <param name="android-package" value="jamesjara.com.cordova.fortumo.FortumoSmsCordovaPlugin"/>
-            </feature>
+                <param name="android-package" value="jamesjara.com.cordova.fortumo.FortumoSmsCordovaPlugin" /> </feature>
         </config-file>
-       
         <config-file target="AndroidManifest.xml" parent="/manifest">
-			<uses-permission android:name="android.permission.INTERNET"/>
-			<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-			<uses-permission android:name="android.permission.RECEIVE_SMS" />
-			<uses-permission android:name="android.permission.SEND_SMS" />
-			<uses-permission android:name="android.permission.READ_PHONE_STATE" />
-			<uses-feature android:name="android.hardware.telephony" android:required="false" />
-			<uses-permission android:name="android.permission.RECEIVE_SMS" />
-			<uses-permission android:name="android.permission.SEND_SMS" />
-			<uses-permission android:name="android.permission.READ_PHONE_STATE" />		  
-        </config-file>
-
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.RECEIVE_SMS" />
+            <uses-permission android:name="android.permission.SEND_SMS" />
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+            <uses-feature android:name="android.hardware.telephony" android:required="false" />
+            <uses-permission android:name="android.permission.RECEIVE_SMS" />
+            <uses-permission android:name="android.permission.SEND_SMS" />
+            <uses-permission android:name="android.permission.READ_PHONE_STATE" /> </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
-        
-        
-  <!-- Define your own permission to protect payment broadcast -->
-  <permission android:name="jamesjara.com.cordova.fortumo.PAYMENT_BROADCAST_PERMISSION" 
-               android:label="Read payment status" 
-               android:protectionLevel="signature" />
-  <!-- "signature" permission granted automatically by system, without notifying user. -->
-  <uses-permission android:name="jamesjara.com.cordova.fortumo.PAYMENT_BROADCAST_PERMISSION" />
-  
-    <!-- Declare these objects, this is part of Fortumo SDK,
+            <!-- Define your own permission to protect payment broadcast -->
+            <permission android:name="jamesjara.com.cordova.fortumo.PAYMENT_BROADCAST_PERMISSION" android:label="Read payment status" android:protectionLevel="signature" />
+            <!-- "signature" permission granted automatically by system, without notifying user. -->
+            <uses-permission android:name="jamesjara.com.cordova.fortumo.PAYMENT_BROADCAST_PERMISSION" />
+            <!-- Declare these objects, this is part of Fortumo SDK,
     and should not be called directly -->
-    <receiver android:name="mp.MpSMSReceiver">
-      <intent-filter>
-      <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-    </intent-filter>
-  </receiver>
-  <service android:name="mp.MpService" />
-  <service android:name="mp.StatusUpdateService" />
-  <activity android:name="mp.MpActivity" 
-             android:theme="@android:style/Theme.Translucent.NoTitleBar"
-             android:configChanges="orientation|keyboardHidden|screenSize" />
- 
-    <!-- Implement you own BroadcastReceiver to track payment status,
+            <receiver android:name="mp.MpSMSReceiver">
+                <intent-filter>
+                    <action android:name="android.provider.Telephony.SMS_RECEIVED" /> </intent-filter>
+            </receiver>
+            <service android:name="mp.MpService" />
+            <service android:name="mp.StatusUpdateService" />
+            <activity android:name="mp.MpActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:configChanges="orientation|keyboardHidden|screenSize" />
+            <!-- Implement you own BroadcastReceiver to track payment status,
     should be protected by "signature" permission -->
-  <receiver android:name=".PaymentStatusReceiver" 
-            android:permission="jamesjara.com.cordova.fortumo.PAYMENT_BROADCAST_PERMISSION">
-    <intent-filter>
-      <action android:name="mp.info.PAYMENT_STATUS_CHANGED" />
-    </intent-filter>
-  </receiver>
-  
-  
-
-
+            <receiver android:name=".PaymentStatusReceiver" android:permission="jamesjara.com.cordova.fortumo.PAYMENT_BROADCAST_PERMISSION">
+                <intent-filter>
+                    <action android:name="mp.info.PAYMENT_STATUS_CHANGED" /> </intent-filter>
+            </receiver>
         </config-file>
-
         <!-- It's a pity, but all source files should be listed here -->
-        <source-file src="android/src/PaymentConstants.java" target-dir="src/org/jamesjara/cordova" />
         <source-file src="android/src/FortumoSmsCordovaPlugin.java" target-dir="src/org/jamesjara/cordova" />
-        <source-file src="android/src/Serialization.java" target-dir="src/org/jamesjara/cordova" />
-
-        <!-- Libraries -->  
-        <source-file src="android/libs/FortumoInApp-android-9.1.2-o.jar" target-dir="libs" />   
-
-    </platform>
+        <!-- Libraries -->
+        <source-file src="android/libs/FortumoInApp-android-9.1.2-o.jar" target-dir="libs" /> </platform>
 </plugin>
