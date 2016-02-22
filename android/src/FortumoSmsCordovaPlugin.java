@@ -293,7 +293,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
               
               PluginResult result = new PluginResult(PluginResult.Status.OK, data); 
               result.setKeepCallback(false);  
-              this.mMyCallbackContext.sendPluginResult(result);
+              mMyCallbackContext.sendPluginResult(result);
               //Wallet.addCoins(context, coins);
               //onPurchaseFinished PurchaseFinished = new onPurchaseFinished();
               //PurchaseFinished.execute(billingStatus, extras);              
