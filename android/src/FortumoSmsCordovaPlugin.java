@@ -347,10 +347,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 					break;
 				case MpUtils.MESSAGE_STATUS_FAILED:
 					// ...
-
-		              PluginResult result = new PluginResult(PluginResult.Status.C, "test");
-		              result.setKeepCallback(true);
-		              connectionCallbackContext.sendPluginResult(result);
+ 
 					break;
 				case MpUtils.MESSAGE_STATUS_PENDING:
 					// ...
