@@ -2,6 +2,7 @@ package jamesjara.com.cordova.fortumo;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.api.PluginResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -247,11 +248,11 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         @Override
         protected void onPostExecute(String[] data) {
         	
-
+/*
             PurchaseFinished.status = billingStatus;
             PurchaseFinished.extras = extras;
             
-            
+            */
             
            // goldTextView.setText(data[0]);
            // bonusLevelUnlockedTextView.setText(data[1]);
@@ -276,7 +277,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         }
     }
 
-    private PaymentStatusReceiver _billingReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver _billingReceiver = new BroadcastReceiver() {
         private static final String TAG = "jamesjarabillings";
 
         @Override
