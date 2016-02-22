@@ -1,7 +1,5 @@
 package jamesjara.com.cordova.fortumo;
 
-//import com.squareup.okhttpxxxxxxx3.internal.StrictLineReader;
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 
@@ -38,43 +36,16 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 	
 	private static final int REQUEST_CODE = 87944598; // if you want to call me :) +506
     public static final String TAG = "forumo-sms-gateway";
-    
-    //private PaymentActivity  mClass;
-    public static final String READ = "xxx";//Manifest.permission.PAYMENT_BROADCAST_PERMISSION;
+    private static final HashMap<String, JSONObject> products = new HashMap<String, JSONObject>();
 
-    public String ServiceId = "";
-    public String AppSecret = "";
-    
-    /*
-    @Override
-    protected void onStart() {
-        super.onStart();
-        IntentFilter filter = new IntentFilter(PaymentConstants.SUCCESSFUL_PAYMENT);
-        registerReceiver(updateReceiver, filter);
-        Log.i(TAG, "updateReceiver registered");
-    }
-
-    @Override
-    protected void onStop() {
-        unregisterReceiver(updateReceiver);
-        Log.i(TAG, "updateReceiver unregistered");
-        super.onPause();
-    }
-    */
+    // we need this callback when Task will finish
+    private CallbackContext mMyCallbackContext = null; 
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException
     {
         if ("init".equals(action))
         {
-        	/*
-            JSONObject config = args.getJSONObject(0);
-            String serviceId = config.getString("serviceId");
-            String appSecret = config.getString("appSecret");
-            ServiceId = serviceId;
-            AppSecret = appSecret;            
-            */
-            
 			//_helper = Fortumo.enablePaymentBroadcast(this, Manifest.permission.PAYMENT_BROADCAST_PERMISSION);
 			init(callbackContext);
             return true;
@@ -82,8 +53,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         else if ("setProduct".equals(action))
         {
             String productId = args.getString(0);
-            JSONObject productData = args.getJSONObject(1) ;            
-            
+            JSONObject productData = args.getJSONObject(1) ;  
             setProduct(productId, productData , callbackContext);
             return true;
         }
@@ -94,19 +64,16 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         }
         else if ("purchaseProduct".equals(action))
         {
+            mMyCallbackContext = callbackContext;
+            
             String productId = args.getString(0);
             String payload = args.length() > 1 ? args.getString(1) : "";
             purchaseProduct(productId, payload, callbackContext);
-            return true;
-        }
-        else if ("purchaseSubscription".equals(action))
-        {
-        	/*
-            String sku = args.getString(0);
-            String payload = args.length() > 1 ? args.getString(1) : "";
-            purchaseProduct(sku, payload, callbackContext);
-            return true;
-            */
+            //return true;
+            PluginResult pluginResult = new  PluginResult(PluginResult.Status.NO_RESULT); 
+            pluginResult.setKeepCallback(true); 
+            callbackContext.sendPluginResult(pluginResult); 
+            return pluginResult;
         }
         else if ("consume".equals(action))
         {
@@ -116,53 +83,11 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             return true;
             */
         }
-        else if ("getSkuDetails".equals(action))
-        {
-        	/*
-            String sku = args.getString(0);
-            getSkuDetails(sku, callbackContext);
-            return true;
-            */
-        }
-        else if ("getSkuListDetails".equals(action))
-        {
-        	/*
-            List<String> skuList = new ArrayList<String>();
-            if (args.length() > 0) {
-                JSONArray jSkuList = args.getJSONArray(0);
-                int count = jSkuList.length();
-                for (int i = 0; i < count; ++i) {
-                    skuList.add(jSkuList.getString(i));
-                }
-            }       
-            getSkuListDetails(skuList, callbackContext);
-            return true;
-            */
-        }
-        else if ("getPurchases".equals(action))
-        {
-        	/*
-            getPurchases(callbackContext);
-            return true;
-            */
-        }
-        else if ("mapSku".equals(action))
-        {
-        	/*
-            String sku = args.getString(0);
-            String storeName = args.getString(1);
-            String storeSku = args.getString(2);
-            mapSku(sku, storeName, storeSku);
-            return true;
-            */
-        }
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 
     private void getProducts(final CallbackContext callbackContext) {
         if (!checkInitialized(callbackContext)) return;
-
-      //  try {
         	JSONArray JSON = new JSONArray();
         	
         	for(Map.Entry<String, JSONObject> entry : products.entrySet()) {
@@ -184,97 +109,15 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
                 }
         	    
         	}
-        	
-            
-
-            
         	callbackContext.success(JSON);
-       /* } catch (JSONException e) {
-            callbackContext.error( e.getMessage());
-            return;
-        }*/
-    }
-    
-    private void mapSku(String sku, String storeName, String storeSku) {
-        //SkuManager.getInstance().mapSku(sku, storeName, storeSku);
     }
 
-    private void getPurchases(final CallbackContext callbackContext) {
-        if (!checkInitialized(callbackContext)) return;
-        
-        /*
-        List<Purchase> purchaseList = _inventory.getAllPurchases();
-        
-        JSONArray jsonPurchaseList = new JSONArray();
-        for (Purchase p : purchaseList) {
-            JSONObject jsonPurchase;
-            try {
-                jsonPurchase = Serialization.purchaseToJson(p);
-                jsonPurchaseList.put(jsonPurchase);
-            } catch (JSONException e) {
-                callbackContext.error(Serialization.errorToJson(-1, "Couldn't serialize Purchase: " + p.getSku()));
-                return;
-            }
-        }
-        callbackContext.success(jsonPurchaseList);
-        */
-    }
-    
-    private void getSkuDetails(String sku, final CallbackContext callbackContext) {
-        if (!checkInitialized(callbackContext)) return;
-
-        /*
-        if (!_inventory.hasDetails(sku)) {
-            callbackContext.error(Serialization.errorToJson(-1, "SkuDetails not found: " + sku));
-            return;
-        }
-
-        JSONObject jsonSkuDetails;
-        try {
-            jsonSkuDetails = Serialization.skuDetailsToJson(_inventory.getSkuDetails(sku));
-        } catch (JSONException e) {
-            callbackContext.error(Serialization.errorToJson(-1, "Couldn't serialize SkuDetails: " + sku));
-            return;
-        }
-        callbackContext.success(jsonSkuDetails);
-        */
-    }
-    
-    private void getSkuListDetails(List<String> skuList, final CallbackContext callbackContext) {
-        if (!checkInitialized(callbackContext)) return;
-/*
-        JSONArray jsonSkuDetailsList = new JSONArray();
-        for (String sku : skuList) {
-            if (_inventory.hasDetails(sku)) {
-                JSONObject jsonSkuDetails;
-                try {
-                    jsonSkuDetails = Serialization.skuDetailsToJson(_inventory.getSkuDetails(sku));    
-                    jsonSkuDetailsList.put(jsonSkuDetails);
-                } catch (JSONException e) {
-                    callbackContext.error(Serialization.errorToJson(-1, "Couldn't serialize SkuDetails: " + sku));
-                    return;
-                }
-            }
-            else {
-                Log.d(TAG, "SKU NOT FOUND: " + sku);
-            }
-        }
-        callbackContext.success(jsonSkuDetailsList);
-        */
-    }
-
-    //private void init(final JSONArray  options, final List<String> skuList, final CallbackContext callbackContext) {
     private void init( final CallbackContext callbackContext) {
         cordova.getActivity().runOnUiThread(new Runnable() {
             public void run() {
             	
-            //	MpUtils.enablePaymentBroadcast(this, READ); //Manifest.permission.PAYMENT_BROADCAST_PERMISSION);
-            	
-            	
-                // _helper = new OpenIabHelper(cordova.getActivity(), options);
             	createBroadcasts();
-            	
-            	new UpdateDataTask().execute();
+            	//new onPurchaseFinished().execute();
 
                 // Start setup. This is asynchronous and the specified listener
                 // will be called once setup completes.
@@ -311,9 +154,6 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         return true;
     }
 
-
-    private static final HashMap<String, JSONObject> products = new HashMap<String, JSONObject>();
-    
     private void setProduct(final String productId, final JSONObject productData, final CallbackContext callbackContext) {
         if (!checkInitialized(callbackContext)) return;
 
@@ -321,15 +161,8 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-            	//try {
-            		
-                    //Map<String, Object> producDataAsMap = new HashMap<String, Object>();
-                    //producDataAsMap = toMap(productData);
-                    products.put(productId, productData);
-                    callbackContext.success();
-                //} catch (JSONException e) {
-                //    callbackContext.error(e.getMessage());
-               // }
+               products.put(productId, productData);
+               callbackContext.success();
             }
         });
     }
@@ -337,15 +170,11 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     private void purchaseProduct(final String productId, final String developerPayload, final CallbackContext callbackContext) {
         if (!checkInitialized(callbackContext)) return;
 
-        //Log.d(TAG, "SKU: " + SkuManager.getInstance().getStoreSku(OpenIabHelper.NAME_GOOGLE, sku));
-
         cordova.setActivityResultCallback(this);
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-            	//mClass.PaymentRequest.PaymentRequestBuilder builder = new mClass.PaymentRequest.PaymentRequestBuilder();
 
-                
                 try {            	
 
                     JSONObject config = products.get(productId);
@@ -372,27 +201,8 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
                 } catch (JSONException e) {
                     Log.e(TAG, "Invalid JSON string: " , e);
                 }
-                
-                
-
-                //makePayment(pr);
-                //_helper.launchPurchaseFlow(cordova.getActivity(), sku, RC_REQUEST, new BillingCallback(callbackContext), developerPayload);
             }
         });
-    }
-
-    public void purchaseSubscription(final String sku, final String developerPayload, final CallbackContext callbackContext) {
-        /*
-    	if (!checkInitialized(callbackContext)) return;
-
-        cordova.setActivityResultCallback(this);
-        cordova.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                _helper.launchSubscriptionPurchaseFlow(cordova.getActivity(), sku, RC_REQUEST, new BillingCallback(callbackContext), developerPayload);
-            }
-        });
-        */
     }
 
     private void consume(final String sku, final CallbackContext callbackContext) {
@@ -416,7 +226,13 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 
     
 
-    private class UpdateDataTask extends AsyncTask<Void, Void, String[]> {
+    private class onPurchaseFinished extends AsyncTask<Void, Void, String[]> {
+    	
+        public onPurchaseFinished(boolean showLoading) {
+            super();
+            // do stuff
+        }
+        
         @Override
         protected String[] doInBackground(Void... voids) {
             String[] result = new String[1];
@@ -430,6 +246,13 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 
         @Override
         protected void onPostExecute(String[] data) {
+        	
+
+            PurchaseFinished.status = billingStatus;
+            PurchaseFinished.extras = extras;
+            
+            
+            
            // goldTextView.setText(data[0]);
            // bonusLevelUnlockedTextView.setText(data[1]);
            // healthPotionTextView.setText(data[2]);
@@ -437,84 +260,8 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         }
     }
     
-    
-    /**
-     * Callback class for when a purchase or consumption process is finished
-     */
-/*
-    public class BillingCallback implements
-            IabHelper.QueryInventoryFinishedListener,
-            IabHelper.OnIabPurchaseFinishedListener,
-            IabHelper.OnConsumeFinishedListener {
-
-        final CallbackContext _callbackContext;
-
-        public BillingCallback(final CallbackContext callbackContext) {
-            _callbackContext = callbackContext;
-        }
-
-        @Override
-        public void onQueryInventoryFinished(IabResult result, Inventory inventory) {
-            Log.d(TAG, "Query inventory process finished.");
-            if (result.isFailure()) {
-                _callbackContext.error(Serialization.errorToJson(result));
-                return;
-            }
-
-            Log.d(TAG, "Query inventory was successful. Init finished.");
-            _inventory = inventory;
-            _callbackContext.success();
-        }
-
-        @Override
-        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
-            Log.d(TAG, "Purchase process finished: " + result + ", purchase: " + purchase);
-            if (result.isFailure()) {
-                Log.e(TAG, "Error purchasing: " + result);
-                _callbackContext.error(Serialization.errorToJson(result));
-                return;
-            }
-            _inventory.addPurchase(purchase);
-            Log.d(TAG, "Purchase successful.");
-            JSONObject jsonPurchase;
-            try {
-                jsonPurchase = Serialization.purchaseToJson(purchase);
-            } catch (JSONException e) {
-                _callbackContext.error(Serialization.errorToJson(-1, "Couldn't serialize the purchase"));
-                return;
-            }
-            _callbackContext.success(jsonPurchase);
-        }
-
-        @Override
-        public void onConsumeFinished(Purchase purchase, IabResult result) {
-            Log.d(TAG, "Consumption process finished. Purchase: " + purchase + ", result: " + result);
-
-            if (result.isFailure()) {
-                Log.e(TAG, "Error while consuming: " + result);
-                _callbackContext.error(Serialization.errorToJson(result));
-                return;
-            }
-            _inventory.erasePurchase(purchase.getSku());
-            Log.d(TAG, "Consumption successful. Provisioning.");
-            JSONObject jsonPurchase;
-            try {
-                jsonPurchase = Serialization.purchaseToJson(purchase);
-            } catch (JSONException e) {
-                _callbackContext.error(Serialization.errorToJson(-1, "Couldn't serialize the purchase"));
-                return;
-            }
-            _callbackContext.success(jsonPurchase);
-        }
-    }
-*/
-
     private void createBroadcasts() {
         Log.d(TAG, "createBroadcasts");
-        /*
-        IntentFilter filter = new IntentFilter(YANDEX_STORE_ACTION_PURCHASE_STATE_CHANGED);
-        cordova.getActivity().registerReceiver(_billingReceiver, filter);
-        */
         IntentFilter filter = new IntentFilter(PaymentConstants.SUCCESSFUL_PAYMENT);
         cordova.getActivity().registerReceiver(_billingReceiver, filter);
         Log.i(TAG, "updateReceiver registered");
@@ -529,25 +276,34 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         }
     }
 
-    private BroadcastReceiver _billingReceiver = new BroadcastReceiver() {
-        private static final String TAG = "YandexBillingReceiver";
+    private PaymentStatusReceiver _billingReceiver = new BroadcastReceiver() {
+        private static final String TAG = "jamesjarabillings";
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            Bundle extras = intent.getExtras();   
-            Log.d(TAG, "onReceive intent: " + intent);
+            String action = intent.getAction();  
+            Bundle extras = intent.getExtras(); 
+            Log.d(TAG, "onReceive intent: " + intent);            
+           // purchaseStateChanged(intent);
 
-            //if (YANDEX_STORE_ACTION_PURCHASE_STATE_CHANGED.equals(action)) {
-                purchaseStateChanged(extras, intent);
-            //}
+            int billingStatus = extras.getInt("billing_status");
+            if(billingStatus == MpUtils.MESSAGE_STATUS_BILLED) {
+              int coins = Integer.parseInt(intent.getStringExtra("credit_amount"));
+              
+              PluginResult result = new PluginResult(PluginResult.Status.OK, data); 
+              result.setKeepCallback(false);  
+              this.mMyCallbackContext.sendPluginResult(result);
+              //Wallet.addCoins(context, coins);
+              //onPurchaseFinished PurchaseFinished = new onPurchaseFinished();
+              //PurchaseFinished.execute(billingStatus, extras);              
+            } 
+            
         }
 
-        private void purchaseStateChanged(Bundle extras, Intent intent) {
+        private void purchaseStateChanged(Intent intent) {
+            Bundle extras = intent.getExtras(); 
             Log.d(TAG, "purchaseStateChanged intent: " + extras);
-            //_helper.handleActivityResult(RC_REQUEST, Activity.RESULT_OK, data);
-            
-           // Log.d(TAG, "- billing_status:  " + getStatusString(extras.getInt("billing_status")));
+
             Log.d(TAG, "- credit_amount:   " + extras.getString("credit_amount"));
             Log.d(TAG, "- credit_name:     " + extras.getString("credit_name"));
             Log.d(TAG, "- message_id:      " + extras.getString("message_id") );
@@ -561,26 +317,14 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             int billingStatus = extras.getInt("billing_status");
             if(billingStatus == MpUtils.MESSAGE_STATUS_BILLED) {
               int coins = Integer.parseInt(intent.getStringExtra("credit_amount"));
+              
+              
               //Wallet.addCoins(context, coins);
-              new UpdateDataTask().execute();
-            }
-                        
+              //onPurchaseFinished PurchaseFinished = new onPurchaseFinished();
+              //PurchaseFinished.execute(billingStatus, extras);              
+            }          
         }
     };
-
-    
-/*
-	protected final void makePayment(PaymentRequest payment) {		
-		
-
-        Intent localIntent = paymentRequest.toIntent(act);
-        act.startActivityForResult(localIntent, requestCode);
-        
-		Context context =  cordova.getActivity().getApplicationContext();
-		Intent intent = new Intent(context,payment.toIntent(this));
-		startActivityForResult(this, intent, 0);
-	}
-	*/
     
     @Override
     public void  onActivityResult(int requestCode, int resultCode, Intent data) {

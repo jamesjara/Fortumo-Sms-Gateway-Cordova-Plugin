@@ -151,22 +151,21 @@
                 var testConsumeButton = document.getElementById('btn_test_consume');
 
                 initButton.onclick = function() { fortumo.init(app.initSuccess, app.initFail); }
-                purchaseButton.onclick = function() { fortumo.purchaseProduct(app.purchaseSuccess, app.purchaseFail, app.PRODUCTID); }
+                purchaseButton.onclick = function() { fortumo.purchaseProduct(app.purchaseSuccess, app.purchaseFail, "a3e92d08f7fa470725d88425db904441"); }
                 //consumeButton.onclick = function() { fortumo.consume(app.consumeSuccess, app.consumeFail, app.SKU_CONS); }
                 //testPurchaseButton.onclick = function() { fortumo.purchaseProduct(app.purchaseSuccess, app.purchaseFail, "android.test.purchased"); }
                 //testConsumeButton.onclick = function() { fortumo.consume(app.consumeSuccess, app.consumeFail, "android.test.purchased"); }
 
                 // Map all prodctos
                 fortumo.setProduct(app.mapSkuSuccess, app.mapSkuFail, "a3e92d08f7fa470725d88425db904441", {
-                    "appSecret": "773d2f4e7af846972ba9192043366249",
-                    "secret": "3431f60f7a1b34bdfe65164ed143b9fc",
                     "name" : "product name",
-                    "type" : "TYPE_CONSUMABLE",
+                    "appSecret" : "773d2f4e7af846972ba9192043366249",
                     "display" : "asi me veo",
-                    "price" : "4.99",
+                    "amount" : "4.99",
                     "currency" : "USD",
                 });
- 
+                
+                
                 // Enable init
                 initButton.disabled = false;
             },
