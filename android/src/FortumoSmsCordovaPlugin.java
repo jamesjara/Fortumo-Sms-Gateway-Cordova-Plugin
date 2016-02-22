@@ -290,11 +290,6 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             int billingStatus = extras.getInt("billing_status");
             if(billingStatus == MpUtils.MESSAGE_STATUS_BILLED) {
               int coins = Integer.parseInt(intent.getStringExtra("credit_amount"));
-              
-              PluginResult result = new PluginResult(PluginResult.Status.OK, "test");
-              result.setKeepCallback(true);
-              connectionCallbackContext.sendPluginResult(result);
-              
               //Wallet.addCoins(context, coins);
               //onPurchaseFinished PurchaseFinished = new onPurchaseFinished();
               //PurchaseFinished.execute(billingStatus, extras);              
@@ -340,7 +335,11 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
 				
 				switch (response.getBillingStatus()) {
 					case MpUtils.MESSAGE_STATUS_BILLED:
-					// ...
+					
+			              PluginResult result = new PluginResult(PluginResult.Status.OK, "test");
+			              result.setKeepCallback(true);
+			              connectionCallbackContext.sendPluginResult(result);
+						
 					break;
 				case MpUtils.MESSAGE_STATUS_FAILED:
 					// ...
