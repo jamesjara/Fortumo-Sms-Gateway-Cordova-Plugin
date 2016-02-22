@@ -40,7 +40,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
     private static final HashMap<String, JSONObject> products = new HashMap<String, JSONObject>();
 
     // we need this callback when Task will finish
-    private CallbackContext mMyCallbackContext = null; 
+    private CallbackContext connectionCallbackContext;
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException
@@ -65,16 +65,16 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
         }
         else if ("purchaseProduct".equals(action))
         {
-            mMyCallbackContext = callbackContext;
+            this.connectionCallbackContext = callbackContext;
             
             String productId = args.getString(0);
             String payload = args.length() > 1 ? args.getString(1) : "";
             purchaseProduct(productId, payload, callbackContext);
-            //return true;
-            PluginResult pluginResult = new  PluginResult(PluginResult.Status.NO_RESULT); 
-            pluginResult.setKeepCallback(true); 
-            callbackContext.sendPluginResult(pluginResult); 
-            return pluginResult;
+
+            PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, productId);
+            pluginResult.setKeepCallback(true);
+            callbackContext.sendPluginResult(pluginResult);
+            return true;
         }
         else if ("consume".equals(action))
         {
@@ -291,9 +291,10 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             if(billingStatus == MpUtils.MESSAGE_STATUS_BILLED) {
               int coins = Integer.parseInt(intent.getStringExtra("credit_amount"));
               
-              PluginResult result = new PluginResult(PluginResult.Status.OK, data); 
-              result.setKeepCallback(false);  
-              mMyCallbackContext.sendPluginResult(result);
+              PluginResult result = new PluginResult(PluginResult.Status.OK, 'tettttt');
+              result.setKeepCallback(true);
+              connectionCallbackContext.sendPluginResult(result);
+              
               //Wallet.addCoins(context, coins);
               //onPurchaseFinished PurchaseFinished = new onPurchaseFinished();
               //PurchaseFinished.execute(billingStatus, extras);              
