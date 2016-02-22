@@ -291,7 +291,7 @@ public class FortumoSmsCordovaPlugin extends CordovaPlugin
             if(billingStatus == MpUtils.MESSAGE_STATUS_BILLED) {
               int coins = Integer.parseInt(intent.getStringExtra("credit_amount"));
               
-              PluginResult result = new PluginResult(PluginResult.Status.OK, 'tettttt');
+              PluginResult result = new PluginResult(PluginResult.Status.OK, "test");
               result.setKeepCallback(true);
               connectionCallbackContext.sendPluginResult(result);
               
