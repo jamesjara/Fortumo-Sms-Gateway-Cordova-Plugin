@@ -29,22 +29,24 @@ $ cordova run android
 Plugin Usage
 ------------
 
-1) Include script to your application.
+1) add your GAP or NPM.
+```
+<gap:plugin name="fortumo-sms-cordova-plugin" source="npm" /> 
+```
+
+2) Add your scripts under cordova.js tag
 ```
 <script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="fortumo"></script> 
+<script src="myWallet.js"></script>
 ```
+2) Simply call ```window.fortumo``` object methods, passing callback functions.
 
-2) Simply call ```fortumo``` object methods, passing callback functions.
-
-
-Set store keys.
+Initialize plugin.
 ```
-fortumo.options.storeKeys = [['your public key']];
-```
+fortumo.init(function(){}, function(){});
+``` 
 
-c) Initialize plugin.
-```
-fortumo.init(function(){}, function(error){}, [ "SKU1", "SKU2", "SKU3" ]);
-```
-
-
+Example
+------------
+Check example folder for a wallet store prototype.
